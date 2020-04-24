@@ -191,7 +191,7 @@
     &.bg-warning,
     &.card-rotate.bg-warning .front,
     &.card-rotate.bg-warning .back{
-      background: linear-gradient(60deg, $orange-400, $orange-600);
+      background: linear-gradient(60deg, #0b75c9, $cyan-600);
     }
     .card-header-danger .card-icon,
     .card-header-danger .card-text,
@@ -234,7 +234,7 @@
     .card-header-warning .card-icon,
     .card-header-warning:not(.card-header-icon):not(.card-header-text),
     .card-header-warning .card-text{
-        @include shadow-big-color($brand-warning);
+        @include shadow-big-color($cyan-600);
     }
 
     .card-header-info .card-icon,

@@ -5,6 +5,7 @@ import {CoursesComponent} from '../../courses/courses.component';
 import {VideotutorialsComponent} from '../../videotutorials/videotutorials.component';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {AttendanceComponent} from '../../attendance/attendance.component';
+import {CaptureComponent} from '../../capture/capture.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: '',   component: DashboardComponent },
@@ -13,4 +14,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'courses',  component: CoursesComponent },
     { path: 'vtutorials',  component: VideotutorialsComponent },
     { path: 'attendance',  component: AttendanceComponent },
+    { path: 'capture',  component: CaptureComponent },
+
 ];

@@ -47,6 +47,11 @@ export class AuthenticationService {
           catchError(this.handleError));
     return  this.loggedUser;
   }
+  saveCode(code) {
+    this.http.post('http://localhost:3000/api/saveCode', code ).subscribe( data => {
+      console.log('Code : ' , data);
+    });
+  }
   getUserSyllabus(userId): Observable<any> {
     const url = 'http://localhost:3000/api/getSyllabusByUserId/' + userId;
     this.registeredCourses = this.http.get(url, httpOptions).pipe(

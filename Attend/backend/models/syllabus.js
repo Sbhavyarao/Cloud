@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var SyllabusSchema = new mongoose.Schema({
-    Syllabus :[],
     userId: String,
 
 });

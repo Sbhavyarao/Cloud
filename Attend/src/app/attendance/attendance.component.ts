@@ -3,6 +3,11 @@ import {DatePipe} from '@angular/common';
 import {SyllabusService} from '../syllabus.service';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
+import { Observable } from 'rxjs/Observable';
+import { switchMap } from 'rxjs/operators';
+import { FaceRecognitionService } from '../face-recognition.service';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-attendance',
@@ -13,76 +18,58 @@ export class AttendanceComponent implements OnInit {
 
   courseData: string;
   schedulerFlag: boolean;
-  syllabusObj: any;
-  courseByWeekArray: CourseByWeek[] = [];
+  code: string;
+  studentCode: string;
+  faceApiResponse: Observable<FaceRecognitionResponse>;
+  subscriptionKey: string;
   i: number;
-  courseScheduledData: string;
+  faceApiVerifyResponse: Observable<FaceVerificationResponse>;
   pipe = new DatePipe('en-US');
   public fromDate: Date;
   public toDate: Date ;
   loggedUserObj: any;
-  sylArray: SyllabusArr[] = [];
+  imageString = '';
 
-  constructor(private syllabusService: SyllabusService , private router: Router , private authenticationService: AuthenticationService) { }
+
+  constructor(private syllabusService: SyllabusService ,
+              private router: Router , private faceRecognitionService: FaceRecognitionService,
+              private authenticationService: AuthenticationService) { }
   ngOnInit() {
-
-    this.authenticationService.currentUser().subscribe(res => {this.loggedUserObj = res;
+    this.authenticationService.currentUser().subscribe(res => {
+      this.loggedUserObj = res;
           console.log('logged user' , this.loggedUserObj);
-          this.authenticationService.getUserSyllabus(this.loggedUserObj._id)
-              .subscribe(res => {
-                if (res.length === 0) {
-                  const obj = new CourseByWeek();
-                  obj.week = 1;
-                  this.courseByWeekArray.push(obj);
-                } else {
-                  for (let i = 0; i <= res.length; i++) {
-                    this.courseByWeekArray.push(res[i].Syllabus[0]);
-                  }
-                }
-                console.log('this.courseByWeekArray', this.courseByWeekArray);
-              }, (err) => {
-                console.log(err);
-              });
-        },
+          },
         (err) => {console.log(err);
         });
     this.schedulerFlag = false;
   }
 
+  generateCode() {
+    this.code = 'abc7fr';
+  }
+  capturePhoto () {
+    this.router.navigate(['/capture']);
+  }
+  markAttendance() {
+    if (this.studentCode.length === 6) {
+      Swal.fire({
+        type: 'success',
+        title: 'Attendance marked successfully',
+        timer: 2000
+      });
+      this.router.navigate(['/']);
+    } else {
+      Swal.fire({
+        type: 'error',
+        title: 'Please check your code',
+        timer: 2000
+      });
+    }
+  }
   syllabus() {
     console.log('courses: ', this.courseData);
   }
-  courseScheduler() {
-    console.log( this.schedulerFlag );
-    this.schedulerFlag = !this.schedulerFlag;
-  }
-  addSchedule() {
-    console.log(this.courseByWeekArray);
-    const myFormattedDate = this.pipe.transform(this.toDate, 'short');
-    console.log(myFormattedDate);
 
-    let obj = new SyllabusObj();
-    obj.userID = this.loggedUserObj._id;
-    obj.syllabusArray = this.courseByWeekArray
-    this.syllabusService.addSyllabus(obj)
-        .subscribe(res => {
-          console.log(res);
-        }, (err) => {
-          console.log(err);
-        });
-    this.router.navigate(['/']);
-  }
-  addNewCourseByWeek() {
-    const obj = new CourseByWeek();
-    obj.week  = this.courseByWeekArray.length ? this.courseByWeekArray.length + 1 : 1;
-    this.courseByWeekArray.push(obj);
-  }
-  removeCourseByWeek(index) {
-    if (this.courseByWeekArray[index] != null) {
-      this.courseByWeekArray.splice(index, 1);
-    }
-    console.log(this.courseByWeekArray);
-  }
 }
 export class CourseByWeek {
   week: number;

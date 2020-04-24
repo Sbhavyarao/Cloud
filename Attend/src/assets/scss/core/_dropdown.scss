@@ -114,8 +114,8 @@
   a:hover,
   a:focus,
   a:active {
-    @include shadow-small-color(darkorange);
-    background-color: darkorange;
+    @include shadow-small-color(#0b75c9);
+    background-color: #0b75c9;
     color: #FFFFFF;
   }
 }

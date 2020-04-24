@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     loggedUserObj: any;
     displayTopicFlag: string;
     displayFlag: string;
-    professor:boolean
+    professor: boolean;
     knowledgeGraphData: any;
     sylArray: SyllabusArray[] = [];
     questionAnswers: RelatedQuestion[] = [];

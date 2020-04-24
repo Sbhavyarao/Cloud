@@ -25,6 +25,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { AttendanceComponent } from './attendance/attendance.component';
+import { CaptureComponent } from './capture/capture.component';
 
 @NgModule({
   imports: [

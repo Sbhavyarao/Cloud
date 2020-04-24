@@ -5,7 +5,7 @@ const cors = require('cors');
 router.use(cors());
 var User = require('../models/User');
 var Courses = require('../models/Courses');
-var syllabus = require('../models/syllabus');
+var code = require('../models/attendCode');
 var email 	= require("emailjs/email");
 var nodemailer = require('nodemailer');
 
@@ -41,6 +41,7 @@ router.post('/syllabus', function (req, res, next) {
     });
 
 });
+
 router.post('/login', function (req, res, next) {
     User.findOne({email: req.body.email}).then(user =>{
         if (user) {
@@ -58,6 +59,25 @@ router.post('/login', function (req, res, next) {
         res.send('error: ' + err)
     })
 });
+
+router.post('/saveCode', function (req, res, next) {
+    code.findOne({email: req.body.email}).then(user =>{
+        if (user) {
+            if(req.body.password === user.password){
+                res.json(user);
+            }
+            else{
+                res.send('password does not match')
+            }
+        }
+        else {
+            res.send('User does not exist')
+        }
+    }).catch(err => {
+        res.send('error: ' + err)
+    })
+});
+
 
 router.put('/updateProfile', function(req, res, next){
     User.findByIdAndUpdate(req.body._id, req.body, function (err,post){

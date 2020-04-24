@@ -26,6 +26,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {FileUploadModule} from 'ng2-file-upload';
 import {FullCalendarModule} from '@fullcalendar/angular';
 import {AttendanceComponent} from '../../attendance/attendance.component';
+import {CaptureComponent} from '../../capture/capture.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -53,7 +54,9 @@ import {AttendanceComponent} from '../../attendance/attendance.component';
     CoursesComponent,
     VideotutorialsComponent,
     SyllabusComponent,
-      AttendanceComponent
+      AttendanceComponent,
+      CaptureComponent,
+
   ]
 })
 
