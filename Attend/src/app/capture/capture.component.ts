@@ -93,6 +93,13 @@ export class CaptureComponent implements OnInit {
     this.faceRecognition.scanImage('d0b264a8e58340079c5a21318bd5f9be', this.imageUrl).subscribe(res => {
       console.log( 'faceId2', res[0].faceId)
       this.faceId2 = res[0].faceId;
+      if (this.faceId2) {
+        Swal.fire({
+          type: 'success',
+          title: 'Image Recognized successfully',
+          timer: 2000
+        });
+      }
     }, (err) => {
       console.log(err);
     });
@@ -100,25 +107,29 @@ export class CaptureComponent implements OnInit {
 
   markAttendance() {
     console.log('faceId1', this.studentFaceId);
-    this.faceRecognition.verify(this.studentFaceId, this.faceId2 , 'd0b264a8e58340079c5a21318bd5f9be').subscribe(res => {
-      this.isIdentical = res.isIdentical;
-      if (this.isIdentical) {
-        Swal.fire({
-          type: 'success',
-          title: 'Attendance marked successfully',
-          timer: 2000
-        });
-        this.router.navigate(['/']);
-      } else {
-        Swal.fire({
-          type: 'error',
-          title: 'Please check your code',
-          timer: 2000
-        });
-      }
-    }, (err) => {
-      console.log(err);
-    });
+    console.log('faceId2', this.faceId2);
+
+    if (this.faceId2) {
+      this.faceRecognition.verify(this.studentFaceId, this.faceId2, 'd0b264a8e58340079c5a21318bd5f9be').subscribe(res => {
+        this.isIdentical = res.isIdentical;
+        if (this.isIdentical) {
+          Swal.fire({
+            type: 'success',
+            title: 'Attendance marked successfully',
+            timer: 2000
+          });
+          this.router.navigate(['/']);
+        } else {
+          Swal.fire({
+            type: 'error',
+            title: 'Please check your code',
+            timer: 2000
+          });
+        }
+      }, (err) => {
+        console.log(err);
+      });
+    }
   }
 
   handleError(error) {
